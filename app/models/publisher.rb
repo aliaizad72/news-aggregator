@@ -1,12 +1,15 @@
+require 'open-uri'
 class Publisher < ApplicationRecord
+  validate :rss_url_must_return_xml, on: :create
+
   validates :name, presence: true
   validates :rss_url, presence: true, format: { with: URI.regexp(%w[http https]), message: "Only allow links with http/https" }
 
   private
 
-  def rss_url_must_return_xml(url)
+  def rss_url_must_return_xml
     begin
-      response = URI.open(url)
+      response = URI.open(rss_url)
       content_type = response.meta["content-type"]&.split("; ")&.first
       valid_content_types = %w[application/rss+xml application/atom+xml application/xml text/xml]
       unless valid_content_types.include?(content_type)

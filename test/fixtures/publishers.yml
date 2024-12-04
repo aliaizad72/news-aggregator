@@ -3,11 +3,7 @@
 one:
   name: MyString
   rss_url: MyString
-  default_category: 1
-  language: 1
 
 two:
   name: MyString
   rss_url: MyString
-  default_category: 1
-  language: 1
