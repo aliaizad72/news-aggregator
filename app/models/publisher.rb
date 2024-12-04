@@ -1,5 +1,7 @@
 require 'open-uri'
 class Publisher < ApplicationRecord
+  belongs_to :language
+
   validate :rss_url_must_return_xml, on: :create
 
   validates :name, presence: true

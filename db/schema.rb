@@ -10,14 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_04_050111) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_04_092132) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "languages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "code"
+  end
 
   create_table "publishers", force: :cascade do |t|
     t.string "name"
     t.string "rss_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "language_id"
+    t.index ["language_id"], name: "index_publishers_on_language_id"
   end
+
+  add_foreign_key "publishers", "languages"
 end

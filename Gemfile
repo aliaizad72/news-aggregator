@@ -64,3 +64,5 @@ group :test do
   gem "selenium-webdriver"
   gem "mutex_m"
 end
+
+gem "iso-639"

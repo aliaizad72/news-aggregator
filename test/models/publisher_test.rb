@@ -36,4 +36,21 @@ class PublisherTest < ActiveSupport::TestCase
     assert_not publisher.valid?
     assert_equal publisher.errors.where(:rss_url).first.type, :connection_error
   end
+
+  test "publishers has one language" do
+    lang = Language.create(code: "ms")
+    publisher = Publisher.create(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed")
+
+    publisher.language = lang
+    assert_equal publisher.language_id, lang.id
+  end
+
+  test "publishers - language association" do
+    lang = Language.create(code: "ms")
+    publisher = Publisher.new(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed")
+    publisher.language = lang
+    publisher.save
+
+    assert_equal lang.publishers.first, publisher
+  end
 end
