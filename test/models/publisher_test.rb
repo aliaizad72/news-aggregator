@@ -15,7 +15,9 @@ class PublisherTest < ActiveSupport::TestCase
   end
 
   test "happy path" do
-    publisher = Publisher.new(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed")
+    lang = Language.create(code: "ms")
+    publisher = Publisher.new(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed", )
+    lang.publishers << publisher
     assert publisher.save
   end
 
@@ -52,5 +54,13 @@ class PublisherTest < ActiveSupport::TestCase
     publisher.save
 
     assert_equal lang.publishers.first, publisher
+  end
+
+  test "publishers - category association" do
+    publisher = Publisher.new(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed")
+    publisher.language = Language.first
+    publisher.default_category = Category.first
+    publisher.save
+    assert_equal Category.first.publishers.first, publisher
   end
 end

@@ -1,5 +1,6 @@
 require 'open-uri'
 class Publisher < ApplicationRecord
+  belongs_to :default_category, class_name: "Category", foreign_key: :category_id, optional: true
   belongs_to :language
 
   validate :rss_url_must_return_xml, on: :create
