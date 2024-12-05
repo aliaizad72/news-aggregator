@@ -39,14 +39,6 @@ class PublisherTest < ActiveSupport::TestCase
     assert_equal publisher.errors.where(:rss_url).first.type, :connection_error
   end
 
-  test "publishers has one language" do
-    lang = Language.create(code: "ms")
-    publisher = Publisher.create(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed")
-
-    publisher.language = lang
-    assert_equal publisher.language_id, lang.id
-  end
-
   test "publishers - language association" do
     lang = Language.create(code: "ms")
     publisher = Publisher.new(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed")
@@ -62,5 +54,19 @@ class PublisherTest < ActiveSupport::TestCase
     publisher.default_category = Category.first
     publisher.save
     assert_equal Category.first.publishers.first, publisher
+  end
+
+  test "publishers - articles association" do
+    publisher = Publisher.new(name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed")
+    publisher.language = Language.first
+    publisher.default_category = Category.first
+    publisher.save
+
+    new_article = Article.new(title: "Title", published_date: "Wed, 04 Dec 2024 09:36:10 -0500", article_link: "https://google.com", guid: Article.first.guid)
+    new_article.language = publisher.language
+    new_article.category = publisher.default_category
+    publisher.articles << new_article
+
+    assert_equal new_article.publisher, publisher
   end
 end

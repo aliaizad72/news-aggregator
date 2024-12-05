@@ -21,4 +21,15 @@ class CategoryTest < ActiveSupport::TestCase
     cat.publishers << publisher
     assert_equal publisher.default_category, cat
   end
+
+  test "category - article association" do
+    cat = Category.first
+    new_article = Article.new(title: "Title", published_date: "Wed, 04 Dec 2024 09:36:10 -0500", article_link: "https://google.com", guid: Article.first.guid)
+    new_article.language = Language.first
+    new_article.publisher = Article.first.publisher
+
+    cat.articles << new_article
+
+    assert_equal new_article.category, cat
+  end
 end

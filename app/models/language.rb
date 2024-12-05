@@ -2,6 +2,8 @@ require "iso-639"
 
 class Language < ApplicationRecord
   has_many :publishers
+  has_many :articles
+
   validate :valid_lang_code
 
   validates :code, presence: true, uniqueness: true

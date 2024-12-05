@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  publisher: two
+  title: Hong Kong's Cathay Pacific apologizes for showing "Family Guy" episode
+  published_date: Wed, 04 Dec 2024 08:44:10 -0500
+  article_link: https://www.cbsnews.com/news/cathay-pacific-airline-apology-family-guy-episode-tiananmen-square-china
+  image_link: https://assets1.cbsnewsstatic.com/hub/i/r/2024/12/04/08992050-805c-4825-9270-dc69edd8cc2e/thumbnail/60x60/9956545c794faa144e2ee01dc3acd1d2/gettyimages-1760315632.jpg?v=0c07a24f1ac5eb64b06f31185829f707
+  language: two
+  category: two
+  guid: bc7af3d0-af6e-4dd9-a96f-1e1508b23693
+
+two:
+  publisher: two
+  title: U.S. slams China for hitting Philippine vessels with water cannons
+  published_date: Wed, 04 Dec 2024 07:20:48 -0500
+  article_link: https://www.cbsnews.com/news/south-china-sea-us-philippines-illegal-dangerous-maneuvers-water-cannons/
+  image_link: https://assets3.cbsnewsstatic.com/hub/i/r/2024/12/04/a5c7cb3b-b045-4f99-a671-8ebdc4c2e9f4/thumbnail/60x60/8505a2a7a3f7c191c424f1f2df3dc0ea/china-philippines-ap24339121920593.jpg?v=0c07a24f1ac5eb64b06f31185829f707
+  language: two
+  category: two
+  guid: 84994bb5-8384-41f0-8dc8-479e2e001efb

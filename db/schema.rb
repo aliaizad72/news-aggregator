@@ -10,9 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_04_112333) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_04_145512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "articles", force: :cascade do |t|
+    t.bigint "publisher_id", null: false
+    t.text "title"
+    t.string "article_link"
+    t.string "image_link"
+    t.bigint "language_id", null: false
+    t.bigint "category_id", null: false
+    t.string "guid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "published_date"
+    t.index ["category_id"], name: "index_articles_on_category_id"
+    t.index ["language_id"], name: "index_articles_on_language_id"
+    t.index %w[publisher_id guid], name: "index_articles_on_publisher_id_and_guid", unique: true
+    t.index ["publisher_id"], name: "index_articles_on_publisher_id"
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -38,6 +55,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_04_112333) do
     t.index ["language_id"], name: "index_publishers_on_language_id"
   end
 
+  add_foreign_key "articles", "categories"
+  add_foreign_key "articles", "languages"
+  add_foreign_key "articles", "publishers"
   add_foreign_key "publishers", "categories"
   add_foreign_key "publishers", "languages"
 end

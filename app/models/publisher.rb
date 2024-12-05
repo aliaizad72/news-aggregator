@@ -1,9 +1,10 @@
-require 'open-uri'
+require "open-uri"
 class Publisher < ApplicationRecord
   belongs_to :default_category, class_name: "Category", foreign_key: :category_id, optional: true
   belongs_to :language
+  has_many :articles
 
-  validate :rss_url_must_return_xml, on: :create
+  validate :rss_url_must_return_xml
 
   validates :name, presence: true
   validates :rss_url, presence: true, format: { with: URI.regexp(%w[http https]), message: "Only allow links with http/https" }
