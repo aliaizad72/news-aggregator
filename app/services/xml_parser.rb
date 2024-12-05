@@ -38,19 +38,38 @@ class XmlParser
 
   def parse_atom(xml)
     parsed = SimpleRSS.parse(xml)
-    base_url = parsed.link
     parsed.entries.map do |item|
       {
-        title: CGI.unescapeHTML(item[:title]),
-        article_link: parsed.link + item[:link],
-        image_link: parse_url_from_content(CGI.unescapeHTML(item[:content])),
-        guid: item[:guid] || item[:published],
-        published_date: String(item[:published])
+        title: parse_title(item[:title]),
+        article_link: parse_article_link(parsed.link, item[:link]),
+        image_link: parse_url_from_content(CGI.unescapeHTML(item[:content] || item[:summary])),
+        guid: item[:guid] || item[:id],
+        published_date: String(item[:published] || item[:updated])
       }
     end
   end
 
+  def parse_title(title)
+    CGI.unescapeHTML(title).gsub("â€™", "'")
+  end
+  def parse_article_link(base_url, path)
+    unless URI.regexp.match?(path)
+      return base_url + path
+    end
+
+    path
+  end
+
   def parse_url_from_content(content)
-    Nokogiri::HTML.parse(content).at_css("img").attributes["src"].value
+    wordpress_emoji_regex =  /^https:\/\/s\.w\.org\/images\/core\/emoji\/.*/
+    image_tag = Nokogiri::HTML.parse(content).at_css("img")
+    if image_tag
+      url = image_tag.attributes["src"].value
+      if wordpress_emoji_regex.match?(url)
+        nil
+      else
+        url
+      end
+    end
   end
 end
