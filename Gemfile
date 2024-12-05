@@ -66,3 +66,5 @@ group :test do
 end
 
 gem "iso-639"
+
+gem "simple-rss", "~> 1.3"
