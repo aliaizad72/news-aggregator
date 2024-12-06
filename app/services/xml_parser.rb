@@ -12,39 +12,23 @@ class XmlParser
     @response = fetcher.fetch(@url)
 
     if fetcher.response_xml?(@response)
-      if fetcher.rss?(@response)
-        parse_rss(@response)
-      elsif fetcher.atom?(@response)
-        parse_atom(@response)
-      end
+      parse_xml(@response)
     else
       # if have time can set up some html scraper or something
       @response
     end
   end
 
-  def parse_rss(xml)
+  def parse_xml(xml)
     parsed = SimpleRSS.parse(xml)
-    parsed.items.map do |item|
-      {
-        title: parse_title(item[:title]),
-        article_link: item[:link],
-        image_link: parse_image_url(item),
-        guid: item[:guid],
-        published_date: String(item[:pubDate])
-      }
-    end
-  end
-
-  def parse_atom(xml)
-    parsed = SimpleRSS.parse(xml)
-    parsed.entries.map do |item|
+    feeds = parsed.items || parsed.entries
+    feeds.map do |item|
       {
         title: parse_title(item[:title]),
         article_link: parse_article_link(parsed.link, item[:link]),
         image_link: parse_image_url(item),
         guid: item[:guid] || item[:id],
-        published_date: String(item[:published] || item[:updated])
+        published_date: String(item[:pubDate] || item[:published] || item[:updated])
       }
     end
   end
@@ -52,6 +36,7 @@ class XmlParser
   def parse_title(title)
     CGI.unescapeHTML(title).gsub("â€™", "'").gsub("&mdash;", "-")
   end
+
   def parse_article_link(base_url, path)
     unless URI.regexp.match?(path)
       return base_url + path
