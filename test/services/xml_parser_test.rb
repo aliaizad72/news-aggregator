@@ -17,6 +17,170 @@ class XmlParserTest < ActiveSupport::TestCase
     assert_equal parsed.first, hash
   end
 
+  test "parse_rss for utusan" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/utusan_test.xml")
+    hash = { title: "FDK 2.0 berlangsung meriah, kenali flora, fauna TNJTP", article_link: "https://www.utusan.com.my/nasional/2024/12/fdk-2-0-berlangsung-meriah-kenali-flora-fauna-tnjtp/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=fdk-2-0-berlangsung-meriah-kenali-flora-fauna-tnjtp", image_link: "https://www.utusan.com.my/wp-content/uploads/2024/12/DKUKUP-MERIAH-1024x768.jpeg", guid: "https://www.utusan.com.my/?p=1044433", published_date: "2024-12-06 05:42:06 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for fmt/rss" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/fmt_test.xml")
+    hash = { title: "US blocked bid for Roger Ng trial documents, says Najib", article_link: "https://www.freemalaysiatoday.com/category/nation/2024/12/06/us-blocked-bid-for-roger-ng-trial-documents-says-najib/", image_link: "https://media.freemalaysiatoday.com/wp-content/uploads/2024/12/f530b817-najib-razak-1mdb-kl-high-court-5.webp", guid: "https://www.freemalaysiatoday.com/?p=2931569", published_date: "2024-12-06 05:45:00 +0000" }
+
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for tmi/rss" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/tmi_test.xml")
+    hash = { title: "Najib might just get his house arrest wish soon", article_link: "https://www.themalaysianinsight.com/s/488327", image_link: nil, guid: "https://www.themalaysianinsight.com/s/488327", published_date: "2024-10-20 08:00:00 +0800" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for nst" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/nst_test.xml")
+    hash = { title: "Time to move on, says outgoing PH chairman Liew", article_link: "https://www.nst.com.my/news/nation/2024/12/1144664/time-move-says-outgoing-ph-chairman-liew", image_link: "https://assets.nst.com.my/images/articles/wtliew612_NSTfield_image_listing_featured_v2.var_1733463455.jpg", guid: "1144664", published_date: "2024-12-06 13:37:38 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for kosmo" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/kosmo_test.xml")
+    hash = { title: "Lagi gudang ‘cuti’ diserbu, rampas arak tiruan RM1 juta", article_link: "https://www.kosmo.com.my/2024/12/06/lagi-gudang-cuti-diserbu-rampas-arak-tiruan-rm1-juta/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=lagi-gudang-cuti-diserbu-rampas-arak-tiruan-rm1-juta", image_link: "https://www.kosmo.com.my/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-06-at-12.48.44-PM-1024x768.jpeg", guid: "https://www.kosmo.com.my/?p=693377", published_date: "2024-12-06 05:38:50 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for tbp" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/tbp_test.xml")
+    hash = { title: "Former rep calls on Sibu Hospital to re-examine move to go totally cashless", article_link: "https://www.theborneopost.com/2024/12/06/former-rep-calls-on-sibu-hospital-to-re-examine-move-to-go-totally-cashless/", image_link: "https://www.theborneopost.com/newsimages/2023/03/sbw-280323-pw-irene-e1679985910712.jpg", guid: "https://www.theborneopost.com/?p=1225384", published_date: "2024-12-06 05:34:02 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for tmr" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/tmr_test.xml")
+    hash = { title: "Team LZJ confirms Tat Meng’s exit", article_link: "https://themalaysianreserve.com/2024/12/06/team-lzj-confirms-tat-mengs-exit/", image_link: "https://themalaysianreserve.com/wp-content/uploads/2024/12/TEAM-LZJ-Wong-Tat-Meng-1-1024x768.jpg", guid: "https://themalaysianreserve.com/?p=586258", published_date: "2024-12-06 05:26:43 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for mt" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/mt_test.xml")
+    hash = { title: "If Zahid Betrays Anwar, it will be Anwar’s fault more than Zahid", article_link: "https://www.malaysia-today.net/2024/12/06/if-zahid-betrays-anwar-it-will-be-anwars-fault-more-than-zahid/", image_link: "https://www.malaysia-today.net/wp-content/uploads/2023/12/download-2.jpg", guid: "https://www.malaysia-today.net/?p=242713", published_date: "2024-12-06 03:14:42 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for sarawak_report" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/sarawak_test.xml")
+    hash = { title: "Sabah Forestry Admits Log Extraction And Export – Says Timber Is ‘Disease Ridden’!", article_link: "https://www.sarawakreport.org/2024/12/sabah-forestry-admit-timber-extraction-and-export-say-timber-is-disease-ridden/", image_link: "https://sarawakreport.org/wp-content/uploads/imgcache/2024/12/pImg_f8d096b5295525efe4bbdc20ed61693c.jpeg", guid: "https://www.sarawakreport.org/2024/12/sabah-forestry-admit-timber-extraction-and-export-say-timber-is-disease-ridden/", published_date: "2024-12-03 22:08:56 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for trp" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/trp_test.xml")
+    hash = { title: "The Sweet Symphony: Kenangan Coffee’s Tiramisu Series Elevates Malaysia’s Coffee Culture", article_link: "https://www.therakyatpost.com/living/2024/12/06/the-sweet-symphony-kenangan-coffees-tiramisu-series-elevates-malaysias-coffee-culture/", image_link: "https://www.therakyatpost.com/wp-content/uploads/2024/12/Untitled3.jpg", guid: "https://www.therakyatpost.com/?p=932448", published_date: "2024-12-06 04:59:50 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for guardian" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/guardian_test.xml")
+    hash = { title: "Defiant Macron vows to stay on as French president and will appoint PM within days", article_link: "https://www.theguardian.com/world/2024/dec/05/macron-vows-to-stay-on-as-french-president-and-will-appoint-pm-within-days", image_link: nil, guid: "https://www.theguardian.com/world/2024/dec/05/macron-vows-to-stay-on-as-french-president-and-will-appoint-pm-within-days", published_date: "2024-12-05 19:47:55 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for fox" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/fox_test.xml")
+    hash = { title: "Black Eyed Peas star predicts which jobs may go extinct thanks to AI", article_link: "https://www.foxnews.com/entertainment/black-eyed-peas-star-predicts-which-jobs-may-go-extinct-thanks-ai", image_link: "https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2024/12/931/523/will_i_am.jpg?ve=1&amp;tl=1", guid: "https://www.foxnews.com/entertainment/black-eyed-peas-star-predicts-which-jobs-may-go-extinct-thanks-ai", published_date: "2024-12-06 02:00:16 -0500" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for dailymail" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/dailymail_test.xml")
+    hash = { title: "I'm A Celebrity's Maura Higgins is embraced by Jane Moore after shock elimination as Melvin Odoom LEAPS into Barry McGuigan's arms at the hotel after double exit", article_link: "https://www.dailymail.co.uk/tvshowbiz/article-14164563/Im-Celebrity-Barry-McGuigan-Maura-Higgins-Jane-Melvin-campmates-hotel-double-elimination.html?ns_mchannel=rss&amp;ito=1490&amp;ns_campaign=1490", image_link: "https://i.dailymail.co.uk/1s/2024/12/06/08/92863469-0-image-m-2_1733472875819.jpg", guid: "https://www.dailymail.co.uk/tvshowbiz/article-14164563/Im-Celebrity-Barry-McGuigan-Maura-Higgins-Jane-Melvin-campmates-hotel-double-elimination.html?ns_mchannel=rss&amp;ito=1490&amp;ns_campaign=1490", published_date: "2024-12-06 08:18:53 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for ndtv" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/ndtv_test.xml")
+    hash = { title: "Harrison Ford Gets De-Aged (Again) For Indiana Jones Video Game", article_link: "https://www.ndtv.com/entertainment/harrison-ford-gets-de-aged-again-for-indiana-jones-and-the-dial-of-destiny-video-game-7185167", image_link: nil, guid: "7185167", published_date: "2024-12-06 12:50:39 +0530" }
+     assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for news18" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/news18_test.xml")
+    hash = { title: "Couple Caught During Mile-High Romp Near Plane's Cockpit, Crew Under Fire For Leaking Video", article_link: "https://www.news18.com/world/couple-caught-during-mile-high-romp-near-planes-cockpit-crew-under-fire-for-leaking-video-9147201.html", image_link: "https://images.news18.com/ibnlive/uploads/2024/12/mahaparinirvan-diwas-from-schools-to-banks-know-whats-open-and-closed-in-maharashtra-today-3-2024-12-9a683bea06a3d7fa18ea361337a69a76-3x2.jpg", guid: "https://www.news18.com/world/couple-caught-during-mile-high-romp-near-planes-cockpit-crew-under-fire-for-leaking-video-9147201.html", published_date: "2024-12-06 13:57:12 +0530" }
+
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for nbc" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/nbc_test.xml")
+    hash = { title: "As manhunt goes on, new images of person of interest in killing of UnitedHealthcare CEO", article_link: "https://www.nbcnews.com/nightly-news/video/as-manhunt-goes-on-new-images-of-person-of-interest-in-killing-of-unitedhealthcare-ceo-226329669771", image_link: "https://media-cldnry.s-nbcnews.com/image/upload/t_fit_1500w/mpx/2704722219/2024_12/1733449209934_nn_sbr_ceo_shooter_241205_1920x1080-zc0lm6.jpg", guid: "nn_sbr_ceo_shooter_241205", published_date: "2024-12-06 01:40:17 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for independent" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/independent_test.xml")
+    hash = { title: "Can’t work, sing, travel, study: All the ways the Taliban are restricting lives of women in Afghanistan", article_link: "https://www.independent.co.uk/asia/south-asia/afghanistan-taliban-bans-women-mid-wives-education-work-b2659927.html", image_link: "https://static.independent.co.uk/2024/11/04/10/GettyImages-2167366841.jpg?width=1200&amp;auto=webp", guid: "b2640881", published_date: "2024-12-06 08:34:04 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for cbs" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/cbs_test.xml")
+    hash = { title: "3 climbers from U.S., Canada believed dead in fall from New Zealand's highest peak", article_link: "https://www.cbsnews.com/news/3-climbers-from-u-s-canada-believed-dead-fall-new-zealand-highest-peak-aoraki/", image_link: nil, guid: "96dcb8f9-851c-495c-ad2e-13b64cfb946c", published_date: "2024-12-06 00:08:57 -0500" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for bi/rss" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/bi_test.xml")
+    hash = { title: "The South Korean president's party says he needs to go - and that he tried to arrest its leaders during martial law", article_link: "https://www.businessinsider.com/south-korea-president-yoon-suk-yeol-impeachment-own-party-arrest-2024-12", image_link: "https://i.insider.com/67526e048fb3f94e5073c6b4?format=jpeg", guid: nil, published_date: "" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for rt" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/rt_test.xml")
+    hash = { title: "Tulsi Gabbard’s views on Russia shaped by reading RT – ABC News", article_link: "https://www.rt.com/news/608823-tulsi-gabbard-reads-rt/?utm_source=rss&utm_medium=rss&utm_campaign=RSS", image_link: "https://mf.b37mrtl.ru/files/2024.11/thumbnail/6736c67f20302727b40f4fd7.png", guid: "https://www.rt.com/news/608823-tulsi-gabbard-reads-rt/", published_date: "2024-12-06 09:00:53 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for telegraph" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/telegraph_test.xml")
+    hash = { title: "House prices surge to record high", article_link: "https://www.telegraph.co.uk/business/2024/12/06/ftse-100-markets-latest-news-uk-growth-budget-bitcoin/", image_link: nil, guid: "98ee73fa-4762-3830-9bc1-5c8f1b4a4fbb", published_date: "2024-12-06 08:16:05 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for aljazeera" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/aljazeera_test.xml")
+    hash = { title: "Trump taps hawkish former Senator David Perdue as ambassador to China", article_link: "https://www.aljazeera.com/news/2024/12/6/trump-taps-hawkish-former-senator-david-perdue-as-ambassador-to-china?traffic_source=rss", image_link: nil, guid: "https://www.aljazeera.com/?t=1733459557", published_date: "2024-12-06 05:48:47 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+
+  test "parse_rss for thesun/rss" do
+    parser = XmlParser.new("https://whatever.com")
+    test_xml = File.open("./test/services/xml/rss/thesun_test.xml")
+    hash = { title: "Nighbitch review: This portrayal of a new mother who transforms into a dog at night teeters on the brink of barking mad", article_link: "https://www.thesun.co.uk/tv/32147388/nighbitch-film-review-mother-transforms-into-dog/", image_link: "https://www.thesun.co.uk/wp-content/uploads/2024/12/image-released-searchlight-pictures-shows-953958587.jpg?strip=all&w=960", guid: "Post 32147388 at The Sun", published_date: "2024-12-06 02:23:06 +0000" }
+    assert_equal parser.parse_rss(test_xml).first, hash
+  end
+  ###############################################################################################################################
+
   test "parse_xml for eatdrinkkl" do
     parser = XmlParser.new("https://whatever.com")
     test_xml = File.open("./test/services/xml/atom/eatdrinkkl_test.xml")
@@ -111,7 +275,7 @@ class XmlParserTest < ActiveSupport::TestCase
   test "parse_xml for bi/atom" do
     parser = XmlParser.new("https://whatever.com")
     test_xml = File.open("./test/services/xml/atom/bi_test.xml")
-    hash = { title: "Vox Media is laying off staff as part of a reorg. Here's the memo outlining the changes.", article_link: "https://www.businessinsider.com/vox-media-lays-off-staff-at-lifestyle-brands-thrillist-eater-2024-12", image_link: "https://i.insider.com/55fb05c869bedd3e590a63da?format=jpeg", guid: "https://www.businessinsider.com/vox-media-lays-off-staff-at-lifestyle-brands-thrillist-eater-2024-12", published_date: "2024-12-05 16:40:58 UTC" }
+    hash = { title: "Vox Media is laying off staff as part of a reorg. Here's the memo outlining the changes.", article_link: "https://www.businessinsider.com/vox-media-lays-off-staff-at-lifestyle-brands-thrillist-eater-2024-12", image_link: "https://i.insider.com/6751d39f34ef9f0108f4ed60?format=jpeg", guid: "https://www.businessinsider.com/vox-media-lays-off-staff-at-lifestyle-brands-thrillist-eater-2024-12", published_date: "2024-12-05 16:40:58 UTC" }
     assert_equal parser.parse_atom(test_xml).first, hash
   end
 
