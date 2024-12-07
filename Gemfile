@@ -68,3 +68,7 @@ end
 gem "iso-639"
 
 gem "simple-rss", "~> 1.3"
+
+gem "google-cloud-language-v2", "~> 0.5.1"
+
+gem "google-cloud-translate-v2", "~> 1.0"
