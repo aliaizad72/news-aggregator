@@ -72,7 +72,13 @@ class ArticleCreator
       article.published_date = feed[:published_date]
       article.publisher = @publisher
       article.language = find_language(code)
-      article.category = find_category(feed[:description], code)
+
+      if @publisher.name == "EatDrinkKL"
+        article.category = Category.find_by(name: "Food")
+      else
+        article.category = find_category(feed[:description], code)
+      end
+
       article.save
     end
   end
@@ -83,16 +89,16 @@ class ArticleCreator
     elsif code == "ms" || code == "id"
       Language.find_by(code: "ms")
     else
-      Language.find_or_create_by(code: code)
+      @publisher.language
     end
   end
 
   def find_category(desc, code)
     category = categorise_article(desc, code)
-    if Category.exists?(category)
+    if Category.exists?(name: category)
       Category.find_by(name: category)
     else
-      Category.find_or_create_by(name: category)
+      @publisher.default_category
     end
   end
 
@@ -102,8 +108,7 @@ class ArticleCreator
 
   def categorise_article(description, language)
     if description.nil? || description.empty?
-      return "News" if language == "en"
-      return "Berita" if language == "en" || language == "ms"
+      return ""
     end
 
    language_client = ::Google::Cloud::Language::V2::LanguageService::Client.new do |config|
@@ -120,9 +125,19 @@ class ArticleCreator
    request_document = Google::Cloud::Language::V2::Document.new(type: "PLAIN_TEXT", content: CGI.unescapeHTML(content))
    request = Google::Cloud::Language::V2::ClassifyTextRequest.new(document: request_document)
 
-   response = language_client.classify_text(request)
+  begin
+    response = language_client.classify_text(request)
+  rescue Google::Cloud::InvalidArgumentError
+    return ""
+  end
    # only taking the category with the highest confidence
-   results = response.categories[0].name.split("/")
+   highest_confidence = response.categories[0]
+
+   if highest_confidence.nil?
+     return ""
+   end
+
+   results = highest_confidence.name.split("/")
    main_result = results[1]
 
    # if the category is "News" find subcategory
@@ -137,17 +152,12 @@ class ArticleCreator
      if language == "ms" || language == "id"
        category = MALAY_TRANSLATION_CATEGORIES[category]
      else
-       category = @translate.translate(category, to: language).text
-       category = CGI.unescapeHTML(category)
+       return ""
      end
    end
 
    if category.nil?
-     if language == "ms" || language == "id"
-       category = "Berita"
-     else
-       category = "News"
-     end
+     return ""
    end
 
    category

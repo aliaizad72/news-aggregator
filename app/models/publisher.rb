@@ -14,6 +14,7 @@ class Publisher < ApplicationRecord
 
   def create_articles
     ArticleCreator.new(self).create
+    p "#{Article.count} created"
   end
 
   def rss_url_must_return_xml

@@ -35,3 +35,6 @@
 
 # ignore keyfile.json
 /keyfile.json
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

@@ -35,8 +35,12 @@ class XmlParser
   end
 
   def parse_description(item)
-    original = CGI.unescapeHTML(item[:description] || item[:summary] || item[:content])
-    parsed = Nokogiri::HTML.parse(original).text.gsub("\n", "")
+    content = item[:description] || item[:summary] || item[:content]
+
+    return item[:title] if content.nil?
+
+    content = CGI.unescapeHTML(content)
+    parsed = Nokogiri::HTML.parse(content).text.gsub("\n", "")
     parsed_words = parsed.split(" ")
 
     if parsed_words.length > 25
@@ -47,6 +51,7 @@ class XmlParser
   end
 
   def parse_title(title)
+    title = title.force_encoding("UTF-8")
     CGI.unescapeHTML(title).gsub("â€™", "'").gsub("&mdash;", "-")
   end
 
@@ -74,7 +79,12 @@ class XmlParser
 
     if image_url.nil?
       # third priority
-      content = CGI.unescapeHTML(item[:content_encoded] || item[:description] || item[:content] || item[:summary])
+      content = item[:content_encoded] || item[:description] || item[:content] || item[:summary]
+
+      return nil if content.nil?
+
+      content = CGI.unescapeHTML(content)
+
       image_tag = Nokogiri::HTML.parse(content).at_css("img")
       if image_tag
         image_url = image_tag.attributes["src"].value

@@ -1,0 +1,13 @@
+<h1 class="text-4xl w-1/2 mx-auto py-2">ARTICLES </h1>
+<div class="w-1/2 mx-auto flex flex-col gap-2">
+  <% @articles.each do |article| %>
+    <div class="border border-blue-900 p-3 rounded-md">
+      <%= link_to article.title, article.article_link, target: "_blank", class: "hover:underline hover:text-blue-500" %>
+      <p><%= article.publisher.name %></p>
+      <p><%= article.category.name %></p>
+    </div>
+  <% end %>
+</div>
+
+
+<div class="bg-red">TEST TAILWIND</div>
