@@ -1,6 +1,7 @@
 require "iso-639"
 
 class Language < ApplicationRecord
+  has_many :categories
   has_many :publishers
   has_many :articles
 

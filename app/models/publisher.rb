@@ -1,4 +1,6 @@
 class Publisher < ApplicationRecord
+  after_create :create_articles
+
   belongs_to :default_category, class_name: "Category", foreign_key: :category_id, optional: true
   belongs_to :language
   has_many :articles
@@ -9,6 +11,10 @@ class Publisher < ApplicationRecord
   validates :rss_url, presence: true, format: { with: URI.regexp(%w[http https]), message: "Only allow links with http/https" }
 
   private
+
+  def create_articles
+    ArticleCreator.new(self).create
+  end
 
   def rss_url_must_return_xml
     fetcher = Fetcher.new

@@ -8,20 +8,34 @@
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
 languages = %w[en ms]
+english_categories = %w[Entertainment Lifestyle Business Technology Food Health Sports Science Travel News Others]
+malay_categories = %w[Hiburan Gayahidup Niaga Teknologi Makanan Kesihatan Sukan Sains Perlancongan Berita Lain-lain ]
+
 languages.each do |code|
-  Language.create(code: code)
+  lang = Language.create(code: code)
+  if code == "en"
+    categories = english_categories
+  else
+    categories = malay_categories
+  end
+
+  categories.each do |cat|
+    category = Category.new(name: cat)
+    lang.categories << category
+  end
 end
 
-english_categories = %w[Others Entertainment Lifestyle Business Technology Food Health News Sports Science Travel]
-malay_categories = %w[Lain-lain Hiburan Gayahidup Niaga Teknologi Makanan Kesihatan Berita Sukan Sains Perlancongan]
+publishers = [
+  # { name: "Business Insider", rss_url: "https://feeds.businessinsider.com/custom/all", default_category: "Business", language: "en" },
+  # { name: "EatDrinkKL", rss_url: "https://www.eatdrinkkl.com/posts.atom", default_category: "Food", language: "en" },
+  { name: "SAYS", rss_url: "https://says.com/my/rss", default_category: "News", language: "en" },
+  # { name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed", default_category: "Berita", language: "ms" },
+  { name: "Utusan Malaysia", rss_url: "https://www.utusan.com.my/feed/", default_category: "Berita", language: "ms" }
+]
 
-categories = english_categories + malay_categories
-categories.each do |cat|
-  Category.create(name: cat)
+publishers.each do |pub|
+  publisher = Publisher.new(name: pub[:name], rss_url: pub[:rss_url])
+  publisher.default_category = Category.find_or_create_by(name: pub[:default_category])
+  publisher.language = Language.find_or_create_by(code: pub[:language])
+  publisher.save
 end
-publisher = Publisher.new(name: "New Straits Times", rss_url: "https://www.nst.com.my/feed")
-publisher.default_category = Category.find_by(name: "News")
-publisher.language = Language.first
-publisher.save
-
-
