@@ -51,10 +51,49 @@ class ArticleCreator
     "Travel" => "Perlancongan"
   }
 
-  def initialize
+  def initialize(publisher)
     @translate = Google::Cloud::Translate::V2.new(
       key: Rails.application.credentials.dig(:gcloud_translate, :api_key)
     )
+    @publisher = publisher
+  end
+  def create
+    feeds = XmlParser.new(@publisher.rss_url).parse
+    feeds.each do |feed|
+      next if Article.exists?(publisher_id: @publisher.id, guid: feed[:guid])
+
+      article = Article.new
+      code = detect_article_language(feed[:description])
+
+      article.title = feed[:title]
+      article.article_link = feed[:article_link]
+      article.image_link = feed[:image_link]
+      article.guid = feed[:guid]
+      article.published_date = feed[:published_date]
+      article.publisher = @publisher
+      article.language = find_language(code)
+      article.category = find_category(feed[:description], code)
+      article.save
+    end
+  end
+
+  def find_language(code)
+    if code == "en"
+      Language.find_by(code: code)
+    elsif code == "ms" || code == "id"
+      Language.find_by(code: "ms")
+    else
+      Language.find_or_create_by(code: code)
+    end
+  end
+
+  def find_category(desc, code)
+    category = categorise_article(desc, code)
+    if Category.exists?(category)
+      Category.find_by(name: category)
+    else
+      Category.find_or_create_by(name: category)
+    end
   end
 
   def detect_article_language(description)
@@ -62,6 +101,11 @@ class ArticleCreator
   end
 
   def categorise_article(description, language)
+    if description.nil? || description.empty?
+      return "News" if language == "en"
+      return "Berita" if language == "en" || language == "ms"
+    end
+
    language_client = ::Google::Cloud::Language::V2::LanguageService::Client.new do |config|
       config.credentials = Rails.application.credentials.dig(:gcloud_language, :keyfile_path)
    end
@@ -89,8 +133,21 @@ class ArticleCreator
    category = ENGLISH_CATEGORY_NAMES[main_result]
 
    # if language is in Malay / Indonesian` translate the category to Malay
-   if language == "ms" || language == "id"
-     category = MALAY_TRANSLATION_CATEGORIES[category]
+   if language != "en"
+     if language == "ms" || language == "id"
+       category = MALAY_TRANSLATION_CATEGORIES[category]
+     else
+       category = @translate.translate(category, to: language).text
+       category = CGI.unescapeHTML(category)
+     end
+   end
+
+   if category.nil?
+     if language == "ms" || language == "id"
+       category = "Berita"
+     else
+       category = "News"
+     end
    end
 
    category
