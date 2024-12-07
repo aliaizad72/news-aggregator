@@ -28,8 +28,21 @@ class XmlParser
         article_link: parse_article_link(parsed.link, item[:link]),
         image_link: parse_image_url(item),
         guid: item[:guid] || item[:id],
-        published_date: String(item[:pubDate] || item[:published] || item[:updated])
+        published_date: String(item[:pubDate] || item[:published] || item[:updated]),
+        description: parse_description(item)
       }
+    end
+  end
+
+  def parse_description(item)
+    original = CGI.unescapeHTML(item[:description] || item[:summary] || item[:content])
+    parsed = Nokogiri::HTML.parse(original).text.gsub("\n", "")
+    parsed_words = parsed.split(" ")
+
+    if parsed_words.length > 25
+      parsed_words[0..26].join(" ")
+    else
+      parse_title(item[:title]) + ". " + parsed
     end
   end
 
