@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  resources :publishers
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   get "articles/index/:lang" => "articles#index"
 

@@ -14,8 +14,7 @@ class XmlParser
     if fetcher.response_xml?(@response)
       parse_xml(@response)
     else
-      # if have time can set up some html scraper or something
-      @response
+      []
     end
   end
 

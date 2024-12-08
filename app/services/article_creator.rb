@@ -59,15 +59,18 @@ class ArticleCreator
   end
   def create
     feeds = XmlParser.new(@publisher.rss_url).parse
+
+    return if feeds.empty?
+
     feeds.each do |feed|
       next if Article.exists?(publisher_id: @publisher.id, guid: feed[:guid])
 
       article = Article.new
 
-      if [ "SAYS", "Free Malaysia Today" ].include?(@publisher.name)
+      if @publisher.bilingual?
         code = detect_article_language(feed[:description])
       else
-        code = @publisher.language
+        code = @publisher.language.code
       end
 
       article.title = feed[:title]
@@ -78,8 +81,8 @@ class ArticleCreator
       article.publisher = @publisher
       article.language = find_language(code)
 
-      if @publisher.name == "EatDrinkKL"
-        article.category = Category.find_by(name: "Food")
+      if @publisher.one_category?
+        article.category = @publisher.default_category
       else
         article.category = find_category(feed[:description], code)
       end
@@ -89,6 +92,7 @@ class ArticleCreator
   end
 
   def published_date(date)
+    # these two papers pubDate is not accurate
     if @publisher.name == "Harian Metro" || @publisher.name == "New Straits Times"
       String(DateTime.parse(date.sub("+0000", "+0800")).utc)
     else
@@ -128,7 +132,7 @@ class ArticleCreator
       config.credentials = Rails.application.credentials.dig(:gcloud_language, :keyfile_path)
    end
 
-   if language != "en"
+   if language == "ms" || language == "id"
      # translate to english first because Language client cannot take Malay
      content = @translate.translate(description, to: "en").text
    else
@@ -140,15 +144,16 @@ class ArticleCreator
 
   begin
     response = language_client.classify_text(request)
-  rescue Google::Cloud::InvalidArgumentError
+  rescue Google::Cloud::InvalidArgumentError => e
     return ""
   end
+
    # only taking the category with the highest confidence
    highest_confidence = response.categories[0]
 
-   if highest_confidence.nil?
-     return ""
-   end
+    if highest_confidence.nil?
+      return ""
+    end
 
    results = highest_confidence.name.split("/")
    main_result = results[1]
@@ -161,12 +166,8 @@ class ArticleCreator
    category = ENGLISH_CATEGORY_NAMES[main_result]
 
    # if language is in Malay / Indonesian` translate the category to Malay
-   if language != "en"
-     if language == "ms" || language == "id"
-       category = MALAY_TRANSLATION_CATEGORIES[category]
-     else
-       return ""
-     end
+   if language == "ms" || language == "id"
+      return MALAY_TRANSLATION_CATEGORIES[category]
    end
 
    if category.nil?

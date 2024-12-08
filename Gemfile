@@ -74,3 +74,7 @@ gem "google-cloud-language-v2", "~> 0.5.1"
 gem "google-cloud-translate-v2", "~> 1.0"
 
 gem "sidekiq", "~> 7.3"
+
+gem "local_time", "~> 3.0"
+
+gem "fastimage", "~> 2.3"

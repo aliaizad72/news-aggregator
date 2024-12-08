@@ -1,0 +1,29 @@
+<div class="mx-auto flex flex-col gap-2">
+  <div>
+    <h1 class="text-4xl mx-auto py-2">ARTICLES</h1>
+    <% if @code == "ms" %>
+      <%= link_to "ENGLISH", "/articles/index/en"  %>
+    <% else %>
+      <%= link_to "BAHASA MELAYU", "/articles/index/ms"%>
+    <% end %>
+  </div>
+  <% @articles.each do |article| %>
+    <div class="flex border border-blue-900 p-3 rounded-md items-center gap-3">
+      <div>
+        <%= link_to article.article_link, target: "_blank", class: "cursor-pointer" do %>
+          <% if article.image_link.nil? %>
+
+          <% else %>
+            <%= image_tag article.image_link, class: "h-[100px]" %>
+          <% end %>
+        <% end %>
+      </div>
+      <div>
+        <%= link_to article.title, article.article_link, target: "_blank", class: "hover:underline hover:text-blue-500" %>
+        <p><%= article.publisher.name %></p>
+        <p><%= article.category.name %></p>
+        <p><%= local_time(article.published_date, "%-l:%M%p, %d %B %Y") %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
