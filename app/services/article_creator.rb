@@ -63,13 +63,18 @@ class ArticleCreator
       next if Article.exists?(publisher_id: @publisher.id, guid: feed[:guid])
 
       article = Article.new
-      code = detect_article_language(feed[:description])
+
+      if [ "SAYS", "Free Malaysia Today" ].include?(@publisher.name)
+        code = detect_article_language(feed[:description])
+      else
+        code = @publisher.language
+      end
 
       article.title = feed[:title]
       article.article_link = feed[:article_link]
       article.image_link = feed[:image_link]
       article.guid = feed[:guid]
-      article.published_date = feed[:published_date]
+      article.published_date = published_date(feed[:published_date])
       article.publisher = @publisher
       article.language = find_language(code)
 
@@ -83,9 +88,17 @@ class ArticleCreator
     end
   end
 
+  def published_date(date)
+    if @publisher.name == "Harian Metro" || @publisher.name == "New Straits Times"
+      String(DateTime.parse(date.sub("+0000", "+0800")).utc)
+    else
+      date
+    end
+  end
+
   def find_language(code)
     if code == "en"
-      Language.find_by(code: code)
+      Language.find_by(code: "en")
     elsif code == "ms" || code == "id"
       Language.find_by(code: "ms")
     else

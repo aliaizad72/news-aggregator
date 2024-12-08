@@ -9,12 +9,13 @@ class Publisher < ApplicationRecord
 
   validates :name, presence: true
   validates :rss_url, presence: true, format: { with: URI.regexp(%w[http https]), message: "Only allow links with http/https" }
+  validates :bilingual?, presence: true
+  validates :one_category?, presence: true
 
   private
 
   def create_articles
-    ArticleCreator.new(self).create
-    p "#{Article.count} created"
+    CreateArticlesJob.perform_async(id)
   end
 
   def rss_url_must_return_xml
