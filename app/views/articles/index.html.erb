@@ -1,59 +1,8 @@
 <div class="h-screen w-[1024px] mx-auto flex flex-col gap-2 mx-10 justify-between">
-  <div class="flex py-6 px-3 items-center justify-between">
-    <h1 class="text-4xl font-semibold"><%= link_to "news-aggregator", root_path %></h1>
-    <div>
-      <% if @code == "ms" %>
-        <%= link_to "news", "/articles/index/en"  %>
-      <% else %>
-        <%= link_to "berita", "/articles/index/ms"%>
-      <% end %>
-    </div>
-  </div>
+  <%= render "partials/navbar" %>
   <div class="grid grid-cols-4 gap-4 flex-1">
-    <div class="grid divide-y divide-black col-span-3">
-      <% @articles.each do |article| %>
-        <div class="flex p-3 items-center gap-3">
-          <div class="w-48 flex-shrink-0">
-            <%= link_to article.article_link, target: "_blank", class: "cursor-pointer" do %>
-              <% if article.image_link.nil? %>
-                <div class="bg-grey-700 text-center">
-                  no images found
-                </div>
-              <% else %>
-                <%= image_tag article.image_link, class: "w-full object-fill rounded-md" %>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="flex flex-col h-full justify-between gap-1.5">
-            <div>
-              <%= link_to article.title, article.article_link, target: "_blank", class: "block hover:underline hover:text-blue-500 font-semibold" %>
-              <div class="flex ">
-                <%= link_to article.publisher.name, publisher_path(article.publisher), target: "_blank", class: "text-sm block hover:underline hover:text-blue-500" %>
-              </div>
-
-            </div>
-            <div class="flex flex-col gap-1.5">
-              <span class="w-fit bg-blue-100 text-blue-800 py-1 font-medium px-2.5 rounded text-xs"><%= article.category.name %></span>
-              <p class="text-xs text-gray-500"><%= local_time(article.published_date, "%-l:%M%p, %d %B %Y") %></p>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-    <div class="flex flex-col">
-      <div class="mb-2">
-        <h4 class="font-semibold mb-2">publishers</h4>
-        <% @publishers.each do |pub| %>
-          <%= link_to pub.name, publisher_path(pub), target: "_blank", class:"inline-block bg-purple-100 text-purple-800 py-1 font-medium px-2.5 rounded text-xs mb-1" %>
-        <% end %>
-      </div>
-      <div>
-        <h4 class="font-semibold mb-2">categories</h4>
-        <% @categories.each do |cat| %>
-          <%= link_to cat.name, root_path, target: "_blank", class:"inline-block bg-orange-100 text-orange-800 py-1 font-medium px-2.5 rounded text-xs mb-1" %>
-        <% end %>
-      </div>
-    </div>
+    <%= render "partials/article_list", articles: @articles %>
+    <%= render "partials/sidebar", publishers: @publishers, categories: @categories %>
   </div>
   <div class="flex flex-col items-center gap-4 w-full px-3 py-6">
     <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
