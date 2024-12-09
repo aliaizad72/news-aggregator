@@ -80,3 +80,7 @@ gem "local_time", "~> 3.0"
 gem "fastimage", "~> 2.3"
 
 gem "pagy", "~> 9.3"
+
+gem "hotwire-rails", "~> 0.1.3"
+
+gem "devise", "~> 4.9"

@@ -67,7 +67,7 @@ class ArticleCreator
 
       article = Article.new
 
-      if @publisher.bilingual?
+      if @publisher.bilingual
         code = detect_article_language(feed[:description])
       else
         code = @publisher.language.code
@@ -81,7 +81,7 @@ class ArticleCreator
       article.publisher = @publisher
       article.language = find_language(code)
 
-      if @publisher.one_category?
+      if @publisher.one_category
         article.category = @publisher.default_category
       else
         article.category = find_category(feed[:description], code)

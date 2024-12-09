@@ -2,13 +2,13 @@
   <div class="mb-2">
     <h4 class="font-semibold mb-2">publishers</h4>
     <% publishers.each do |pub| %>
-      <%= link_to pub.name, publisher_path(pub), target: "_blank", class:"inline-block bg-purple-100 text-purple-800 py-1 font-medium px-2.5 rounded text-xs mb-1" %>
+      <%= link_to pub.name, publisher_path(pub), target: "_blank", class:"inline-block bg-purple-100 text-purple-800 py-1 font-medium px-2.5 rounded text-xs mb-1 hover:bg-blue-100 hover:text-blue-800 transition" %>
     <% end %>
   </div>
   <div>
     <h4 class="font-semibold mb-2">categories</h4>
     <% categories.each do |cat| %>
-      <%= link_to cat.name, root_path, target: "_blank", class:"inline-block bg-orange-100 text-orange-800 py-1 font-medium px-2.5 rounded text-xs mb-1" %>
+      <%= link_to cat.name, category_path(cat), target: "_blank", class:"inline-block bg-orange-100 text-orange-800 py-1 font-medium px-2.5 rounded text-xs mb-1 hover:bg-blue-100 hover:text-blue-800 transition" %>
     <% end %>
   </div>
 </div>

@@ -1,0 +1,54 @@
+<div class="h-screen w-[1024px] mx-auto flex flex-col gap-2 mx-10">
+  <%= render "partials/navbar" %>
+  <h1 class="text-2xl px-3 font-semibold">Edit New Publisher</h1>
+  <%= form_with model: @publisher, class: "px-3 flex flex-col gap-2" do |form| %>
+    <% if flash[:alert] %>
+      <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
+    <div class="flex flex-col gap-1">
+      <%= form.label :name, "Name " %>
+      <%= form.text_field :name, required: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full" %>
+    </div>
+    <div>
+      <%= form.label :name, "RSS URL " %>
+      <%= form.url_field :rss_url, required: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full"%>
+    </div>
+    <div>
+      <%= form.label :language, "Main language: " %>
+      <%= form.select :language, Language.all.collect { |lang| [ISO_639.find(lang.code)[3], lang.id]}, { include_blank: false }, { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" } %>
+    </div>
+    <div>
+      <%= form.label :bilingual, "Have articles in more than one language?" %><br />
+      <div class="flex gap-4 items-center mt-1">
+        <div class="flex items-center gap-1">
+          <%= form.radio_button :bilingual, true %>
+          <%= form.label :bilingual, "Yes", value: "true"  %>
+        </div>
+        <div class="flex items-center gap-1">
+          <%= form.radio_button :bilingual, false, checked: true %>
+          <%= form.label :bilingual, "No", value: "false"  %>
+        </div>
+      </div>
+    </div>
+    <div>
+      <%= form.label :category, "Default category: " %>
+      <%= form.select :category, Category.all.collect { |cat| [ cat.name, cat.id] }, { include_blank: false, selected: 10 }, { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full" } %>
+    </div>
+    <div>
+      <%= form.label :one_category, "Do you only have one category of articles?" %><br />
+      <div class="flex gap-4 items-center mt-1">
+        <div class="flex items-center gap-1">
+          <%= form.radio_button :one_category, true %>
+          <%= form.label :one_category, "Yes", value: "true"  %>
+        </div>
+        <div class="flex items-center gap-1">
+          <%= form.radio_button :one_category, false, checked: true %>
+          <%= form.label :one_category, "No", value: "false"  %>
+        </div>
+      </div>
+    </div>
+    <%= form.submit "Edit Publisher", class: "text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2" %>
+  <% end %>
+</div>
