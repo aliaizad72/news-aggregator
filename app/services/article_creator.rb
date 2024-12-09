@@ -92,8 +92,8 @@ class ArticleCreator
   end
 
   def published_date(date)
-    # these two papers pubDate is not accurate
-    if @publisher.name == "Harian Metro" || @publisher.name == "New Straits Times"
+    # these two papers pubDate are not accurate
+    if %w[https://www.hmetro.com.my/feed https://www.nst.com.my/feed].include?(@publisher.rss_url)
       String(DateTime.parse(date.sub("+0000", "+0800")).utc)
     else
       date
@@ -129,7 +129,7 @@ class ArticleCreator
     end
 
    language_client = ::Google::Cloud::Language::V2::LanguageService::Client.new do |config|
-      config.credentials = Rails.application.credentials.dig(:gcloud_language, :keyfile_path)
+      config.credentials = (Rails.root + Rails.application.credentials.dig(:gcloud_language, :keyfile_path)).to_s
    end
 
    if language == "ms" || language == "id"

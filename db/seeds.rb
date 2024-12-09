@@ -7,6 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Admin.create(email: "aliaizad72@gmail.com", password: Rails.application.credentials.dig(:admin, :password))
+
 languages = %w[en ms]
 english_categories = %w[Entertainment Lifestyle Business Technology Food Health Sports Science Travel News Others]
 malay_categories = %w[Hiburan Gayahidup Niaga Teknologi Makanan Kesihatan Sukan Sains Perlancongan Berita Lain-lain ]
@@ -26,9 +28,9 @@ languages.each do |code|
 end
 
 publishers = [
-  { name: "EatDrinkKL", rss_url: "https://www.eatdrinkkl.com/posts.atom", default_category: "Food", language: "en", one_category: true },
+  # { name: "EatDrinkKL", rss_url: "https://www.eatdrinkkl.com/posts.atom", default_category: "Food", language: "en", one_category: true },
   { name: "SAYS", rss_url: "https://says.com/my/rss", default_category: "News", language: "en", bilingual: true },
-  { name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed", default_category: "Berita", language: "ms" },
+  # { name: "Harian Metro", rss_url: "https://www.hmetro.com.my/feed", default_category: "Berita", language: "ms" },
   # { name: "Business Insider", rss_url: "https://feeds.businessinsider.com/custom/all", default_category: "Business", language: "en" },
   # { name: "Bangsar Babe", rss_url: "https://www.bangsarbabe.com/feed/atom", default_category: "Food", language: "en" },
   # { name: "Cilisos", rss_url: "https://cilisos.my/feed/atom/", default_category: "News", language: "en" },

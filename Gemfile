@@ -84,3 +84,7 @@ gem "pagy", "~> 9.3"
 gem "hotwire-rails", "~> 0.1.3"
 
 gem "devise", "~> 4.9"
+
+gem "dockerfile-rails", ">= 1.6", :group => :development
+
+gem "redis", "~> 5.3"

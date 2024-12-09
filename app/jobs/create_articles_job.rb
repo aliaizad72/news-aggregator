@@ -1,7 +1,7 @@
 class CreateArticlesJob
   include Sidekiq::Job
 
-  sidekiq_options retry: 2
+  sidekiq_options retry: 10
 
   def perform(publisher_id)
     # Do something later
