@@ -4,6 +4,12 @@
   <div class="flex gap-3">
     <%= link_to "english", "/articles/en", class: "font-medium hover:underline hover:text-blue-500"  %>
     <%= link_to "bm", "/articles/ms", class: "font-medium hover:underline hover:text-blue-500"%>
-    <%= link_to "add publisher", new_publisher_path, class: "font-medium hover:underline hover:text-blue-500"  %>
+    <% if current_admin %>
+      <%= link_to "add publisher", new_publisher_path, class: "font-medium hover:underline hover:text-blue-500"  %>
+      <%= link_to "log out", destroy_admin_session_path, data: { turbo_method: :delete }, class: "font-medium hover:underline hover:text-blue-500" %>
+    <% end %>
+    <% unless current_admin %>
+      <%= link_to "admin", new_admin_session_path, class: "font-medium hover:underline hover:text-blue-500" %>
+    <% end %>
   </div>
 </div>

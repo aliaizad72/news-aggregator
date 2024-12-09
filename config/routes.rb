@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  devise_for :admins, skip: :registrations
   resources :publishers
   resources :categories, only: :show
 
@@ -20,6 +21,8 @@ Rails.application.routes.draw do
   # or require 'sidekiq/pro/web'
   # or require 'sidekiq-ent/web'
 
-  mount Sidekiq::Web => "/sidekiq" # mount Sidekiq::Web in your Rails app
+  authenticate :admin do
+    mount Sidekiq::Web => "/sidekiq" # mount Sidekiq::Web in your Rails app
+  end
 end
 

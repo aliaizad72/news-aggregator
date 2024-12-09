@@ -546,6 +546,11 @@
               <RakeTaskImpl description="" fullCommand="db:truncate_all" id="truncate_all" />
             </subtasks>
           </RakeTaskImpl>
+          <RakeTaskImpl id="hotwire">
+            <subtasks>
+              <RakeTaskImpl description="Install Hotwire into the app" fullCommand="hotwire:install" id="install" />
+            </subtasks>
+          </RakeTaskImpl>
           <RakeTaskImpl id="importmap">
             <subtasks>
               <RakeTaskImpl description="Setup Importmap for the app" fullCommand="importmap:install" id="install" />
