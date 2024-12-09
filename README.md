@@ -3,7 +3,7 @@
 
 A web application that aggregates news via RSS/Atom feeds of newspapers, news tv channel or blogs.
 
-Deployment link: [https://news-aggregator-white-wildflower-9335.fly.dev/](https://news-aggregator-white-wildflower-9335.fly.dev/) I
+Deployment link: [https://news-aggregator-white-wildflower-9335.fly.dev/](https://news-aggregator-white-wildflower-9335.fly.dev/)
 
 If it is too long use this one: [snippit.my/tF](https://snippit.my/tF) (shortened the link using my own [url-shortener](https://github.com/aliaizad72/url-shortener) project!). 
 
