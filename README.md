@@ -3,7 +3,11 @@
 
 A web application that aggregates news via RSS/Atom feeds of newspapers, news tv channel or blogs.
 
-Deployment link: [https://news-aggregator-white-wildflower-9335.fly.dev/](https://news-aggregator-white-wildflower-9335.fly.dev/) , if it is too long use this one: [snippit.my/tF](https://snippit.my/tF) (shortened the link using my own [url-shortener](https://github.com/aliaizad72/url-shortener) project!). Note that it might take some time to load due to the warm-restart of fly.io machines, retry a few times if it fails.
+Deployment link: [https://news-aggregator-white-wildflower-9335.fly.dev/](https://news-aggregator-white-wildflower-9335.fly.dev/) I
+
+If it is too long use this one: [snippit.my/tF](https://snippit.my/tF) (shortened the link using my own [url-shortener](https://github.com/aliaizad72/url-shortener) project!). 
+
+Note that it might take some time to load due to the warm-restart of fly.io machines, retry a few times if it fails.
 
 ## Main Feature
 The website lists news articles that are recently published on their respective publishers. Each news listing consists of their title, publisher, category, thumbnail, and published time for the article. The publishers can be added given that they have a valid RSS/Atom feed. After the creation of a new publisher and their respective articles, the program will fetch for new updates from that publisher every hour.
