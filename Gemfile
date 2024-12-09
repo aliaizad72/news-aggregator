@@ -78,3 +78,5 @@ gem "sidekiq", "~> 7.3"
 gem "local_time", "~> 3.0"
 
 gem "fastimage", "~> 2.3"
+
+gem "pagy", "~> 9.3"

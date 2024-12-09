@@ -1,5 +1,5 @@
-<div class="w-[1024px] mx-auto flex flex-col gap-2 mx-10">
-  <div class="flex p-3 items-center justify-between">
+<div class="h-screen w-[1024px] mx-auto flex flex-col gap-2 mx-10 justify-between">
+  <div class="flex py-6 px-3 items-center justify-between">
     <h1 class="text-4xl font-semibold"><%= link_to "news-aggregator", root_path %></h1>
     <div>
       <% if @code == "ms" %>
@@ -9,7 +9,7 @@
       <% end %>
     </div>
   </div>
-  <div class="grid grid-cols-4">
+  <div class="grid grid-cols-4 gap-4 flex-1">
     <div class="grid divide-y divide-black col-span-3">
       <% @articles.each do |article| %>
         <div class="flex p-3 items-center gap-3">
@@ -40,8 +40,22 @@
         </div>
       <% end %>
     </div>
-    <div>
-      tags
+    <div class="flex flex-col">
+      <div class="mb-2">
+        <h4 class="font-semibold mb-2">publishers</h4>
+        <% @publishers.each do |pub| %>
+          <%= link_to pub.name, publisher_path(pub), target: "_blank", class:"inline-block bg-purple-100 text-purple-800 py-1 font-medium px-2.5 rounded text-xs mb-1" %>
+        <% end %>
+      </div>
+      <div>
+        <h4 class="font-semibold mb-2">categories</h4>
+        <% @categories.each do |cat| %>
+          <%= link_to cat.name, root_path, target: "_blank", class:"inline-block bg-orange-100 text-orange-800 py-1 font-medium px-2.5 rounded text-xs mb-1" %>
+        <% end %>
+      </div>
     </div>
+  </div>
+  <div class="flex flex-col items-center gap-4 w-full px-3 py-6">
+    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
   </div>
 </div>

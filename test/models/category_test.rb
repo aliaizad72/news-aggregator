@@ -4,13 +4,17 @@ class CategoryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
-  test "happy path" do
-    cat = Category.new(name: "food")
-    assert cat.valid?
+  test "category must have language attributes" do
+    lang = Language.create(code: "en")
+    cat = Category.new(name: "news") # exist in fixtures
+    lang.categories << cat
+    assert_not cat.valid?
   end
 
   test "must be unique" do
+    lang = Language.create(code: "en")
     cat = Category.new(name: "news") # exist in fixtures
+    lang.categories << cat
     assert_not cat.valid?
     assert_equal cat.errors.first.type, :taken
   end
