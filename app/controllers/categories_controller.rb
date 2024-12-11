@@ -7,7 +7,8 @@ class CategoriesController < ApplicationController
     id = @category.language_id
     articles = @category.articles
 
-    @publishers = Publisher.all.distinct
-    @categories = Category.all.where(language_id: id)
-    @pagy, @articles = pagy(articles, limit: 5)  end
+    @publishers = Publisher.distinct
+    @categories = Category.where(language_id: id)
+    @pagy, @articles = pagy(articles, limit: 5)
+  end
 end
