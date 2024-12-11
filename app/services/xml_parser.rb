@@ -11,12 +11,16 @@ class XmlParser
     fetcher = Fetcher.new
     @response = fetcher.fetch(@url)
 
-    return [] if @response.kind_of? Exception
+    raise @response if @response.kind_of? Exception
 
     if fetcher.response_xml?(@response)
-      parse_xml(@response)
+      begin
+        parse_xml(@response)
+      rescue Exception => e
+        raise e, "XML parsing error!"
+      end
     else
-      []
+      raise Exception, "HTTP response is not in XML format!"
     end
   end
 

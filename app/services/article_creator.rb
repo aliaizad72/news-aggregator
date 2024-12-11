@@ -60,8 +60,6 @@ class ArticleCreator
   def create
     feeds = XmlParser.new(@publisher.rss_url).parse
 
-    return if feeds.empty?
-
     feeds.each do |feed|
       next if Article.exists?(publisher_id: @publisher.id, guid: feed[:guid])
 

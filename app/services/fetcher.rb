@@ -18,7 +18,7 @@ class Fetcher
   end
 
   def content_type(response)
-    response.meta["content-type"]&.split("; ")&.first
+    response.meta["content-type"]&.split(";")&.first
   end
 
   def atom?(response)
