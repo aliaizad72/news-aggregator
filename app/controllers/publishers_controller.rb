@@ -6,10 +6,10 @@ class PublishersController < ApplicationController
     redirect_to root_path if @publisher.nil?
 
     id = @publisher.language_id
-    articles = @publisher.articles
+    articles = @publisher.articles.includes(:publisher, :category)
 
-    @publishers = Publisher.all.distinct
-    @categories = Category.all.where(language_id: id)
+    @publishers = Publisher.distinct
+    @categories = Category.where(language_id: id)
     @pagy, @articles = pagy(articles, limit: 5)
   end
 

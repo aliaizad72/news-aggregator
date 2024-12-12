@@ -5,7 +5,7 @@ class CategoriesController < ApplicationController
     redirect_back_or_to :root_path if @category.nil?
 
     id = @category.language_id
-    articles = @category.articles
+    articles = @category.articles.includes(:publisher, :category)
 
     @publishers = Publisher.distinct
     @categories = Category.where(language_id: id)
