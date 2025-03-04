@@ -71,7 +71,7 @@ gem "simple-rss", "~> 1.3"
 
 gem "google-cloud-language-v2", "~> 0.5.1"
 
-gem "google-cloud-translate-v2", "~> 1.0"
+gem "google-cloud-translate-v2", "~> 1.1"
 
 gem "sidekiq", "~> 7.3"
 
